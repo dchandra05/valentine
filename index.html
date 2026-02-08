@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urgent Question!</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff9c4; 
+            font-family: 'Arial Rounded MT Bold', 'Helvetica', sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        #main-card {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+            border: 5px solid white;
+        }
+
+        h1 {
+            color: #d32f2f;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column; /* Stacks them vertically */
+            gap: 15px;
+            align-items: center;
+            min-height: 200px;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 15px;
+            color: white;
+            transition: all 0.2s ease;
+        }
+
+        #yesBtn {
+            background-color: #ff3d00;
+            box-shadow: 0 6px 0 #b22a00;
+            z-index: 10;
+        }
+
+        #noBtn {
+            background-color: #546e7a;
+            box-shadow: 0 6px 0 #37474f;
+            z-index: 5;
+        }
+
+        #success-message {
+            display: none;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .final-text {
+            color: #d32f2f;
+            font-size: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgZ41ek1cp9LadrdGzdeXM_JxhkuxZU2lHlw&s" alt="Valentine Minion">
+        
+        <div id="content">
+            <h1>Will you be my valentine?</h1>
+            <div class="button-container">
+                <button id="yesBtn" onclick="celebrate()">Yes</button>
+                <button id="noBtn" onmouseover="moveButton()" onclick="celebrate()">No</button>
+            </div>
+        </div>
+
+        <div id="success-message">
+            <h1 class="final-text">YAY! ❤️</h1>
+        </div>
+    </div>
+
+    <script>
+        let yesSize = 1;
+
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+            
+            // Move No Button to random spot
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
+            noBtn.style.position = "fixed";
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+
+            // Make Yes Button bigger
+            yesSize += 0.15;
+            yesBtn.style.transform = `scale(${yesSize})`;
+        }
+
+        function celebrate() {
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+
+            var end = Date.now() + (5 * 1000);
+            var colors = ['#ff0000', '#ffeb3b', '#ffffff'];
+
+            (function frame() {
+              confetti({
+                particleCount: 3,
+                angle: 60, spread: 55, origin: { x: 0 }, colors: colors
+              });
+              confetti({
+                particleCount: 3,
+                angle: 120, spread: 55, origin: { x: 1 }, colors: colors
+              });
+
+              if (Date.now() < end) {
+                requestAnimationFrame(frame);
+              }
+            }());
+        }
+    </script>
+</body>
+</html>
